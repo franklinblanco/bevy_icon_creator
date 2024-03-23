@@ -1,6 +1,11 @@
-use bevy::{app::Plugin, math::Vec3};
+use bevy::{app::{Plugin, Startup}, math::Vec3};
 
-const DEFAULT_WORLD_POSITION_FOR_ROOT: Vec3 = Vec3 { x: 4000.0, y: -300.0, z: 4000.0 };
+use crate::{setup::setup_icon_creation_scenes, state::IconCreatorState};
+
+const DEFAULT_SCENES_AMOUNT: u8 = 1;
+const DEFAULT_WORLD_POSITION_FOR_ROOT: Vec3 = Vec3 { x: 0.0, y: -300.0, z: 0.0 };
+const DEFAULT_RENDER_LAYER: u8 = 21;
+const DEFAULT_LIGHT_INTENSITY: f32 = 14_000.0;
 
 /// Either use `IconCreatorPlugin::default()` or `IconCreatorPlugin::with_config(scenes)`
 pub struct IconCreatorPlugin {
@@ -12,28 +17,37 @@ pub struct IconCreatorPlugin {
     scenes: u8,
     /// The global coordinates of the Root of the scenes.
     /// 
-    /// Default is Vec3 { x: 4000.0, y: -300.0, z: 4000.0 }
+    /// Default is Vec3 { x: 0.0, y: -300.0, z: 0.0 }
     world_pos: Vec3,
-}
-
-
-impl Default for IconCreatorPlugin {
-    fn default() -> Self {
-        Self { scenes: 1, world_pos: DEFAULT_WORLD_POSITION_FOR_ROOT }
-    }
-}
-
-impl IconCreatorPlugin {
-    pub fn with_config(scenes: u8, world_pos: Vec3) -> Self {
-        Self {
-            scenes,
-            world_pos,
-        }
-    }
+    /// The render layer everything inside this is going to be placed in 
+    /// 
+    /// Default is 21
+    render_layer: u8,
+    /// Default is 14,000
+    light_intensity: f32,
 }
 
 impl Plugin for IconCreatorPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
-        
+        app.insert_resource(IconCreatorState::new(self.scenes, self.world_pos, self.render_layer, self.light_intensity));
+
+        app.add_systems(Startup, setup_icon_creation_scenes);
+    }
+}
+
+impl Default for IconCreatorPlugin {
+    fn default() -> Self {
+        Self { scenes: DEFAULT_SCENES_AMOUNT, world_pos: DEFAULT_WORLD_POSITION_FOR_ROOT, render_layer: DEFAULT_RENDER_LAYER, light_intensity: DEFAULT_LIGHT_INTENSITY }
+    }
+}
+
+impl IconCreatorPlugin {
+    pub fn with_config(scenes: u8, world_pos: Vec3, render_layer: u8, light_intensity: f32) -> Self {
+        Self {
+            scenes,
+            world_pos,
+            render_layer,
+            light_intensity,
+        }
     }
 }
