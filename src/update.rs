@@ -46,10 +46,10 @@ pub fn update_icon_creator_scenes(
                             }
                         }
                     }
+                    scene_root_marker.0 += 1;
                 }
             }
         }
-        scene_root_marker.0 += 1;
     }
 }
 
