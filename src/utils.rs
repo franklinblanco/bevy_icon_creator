@@ -9,7 +9,7 @@ pub fn mark_all_children_with_component<T: Bundle + Clone>(
 ) {
     if mark_parent {
         if let Some(mut entity_commands) = commands.get_entity(entity) {
-            entity_commands.insert(bundle.clone());
+            entity_commands.try_insert(bundle.clone());
         }
     }
     mark_all_children_with_component_recursive(commands, entity, children_query, bundle, true);
@@ -29,7 +29,7 @@ fn mark_all_children_with_component_recursive<T: Bundle + Clone>(
     }
     if !first_time {
         if let Some(mut entity_commands) = commands.get_entity(entity) {
-            entity_commands.insert(bundle);
+            entity_commands.try_insert(bundle);
         }
     }
 }

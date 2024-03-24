@@ -16,7 +16,7 @@ pub fn update_icon_creator_scenes(
     mut images: ResMut<Assets<Image>>,
     mut created_icons: ResMut<CreatedIcons>,
 ) {
-    for (scene_root_entity, scene_marker, mut scene_root_visibility, mut scene_root_marker) in scene_query.iter_mut() {
+    'a: for (scene_root_entity, scene_marker, mut scene_root_visibility, mut scene_root_marker) in scene_query.iter_mut() {
         for (mut scene_camera, in_scene) in scene_camera_query.iter_mut() {
             if scene_marker.0 != in_scene.0 { continue; }
             for (scene_parent_entity, in_scene) in scene_entity_parent_query.iter() {
@@ -37,6 +37,7 @@ pub fn update_icon_creator_scenes(
                             scene_camera.target = RenderTarget::Image(camera_target_image_handle);
                         } else if scene_root_marker.0 >= MIN_FRAMES_TO_RENDER + entity_getting_icon_marker.extra_frames.unwrap_or(0) {
                             commands.entity(scene_root_entity).remove::<SceneOccupiedMarker>();
+                            scene_root_marker.0 = 0;
                             if let Some(mut entity_commands) = commands.get_entity(scene_parent_entity) { // Unoccupy
                                 entity_commands.remove::<SceneOccupiedMarker>();
                                 scene_camera.is_active = false;
@@ -44,6 +45,7 @@ pub fn update_icon_creator_scenes(
                                 scene_camera.target = RenderTarget::default();
                                 entity_commands.despawn_descendants();
                             }
+                            continue 'a;
                         }
                     }
                     scene_root_marker.0 += 1;
