@@ -42,6 +42,7 @@ pub fn update_icon_creator_scenes(
                                 scene_camera.is_active = false;
                                 *scene_root_visibility = Visibility::Hidden;
                                 scene_camera.target = RenderTarget::default();
+                                entity_commands.despawn_descendants();
                             }
                         }
                     }

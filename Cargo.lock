@@ -608,7 +608,7 @@ dependencies = [
 
 [[package]]
 name = "bevy_icon_creator"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "bevy",
 ]
