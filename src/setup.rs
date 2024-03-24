@@ -1,6 +1,6 @@
 use bevy::{prelude::*, render::{camera::ScalingMode, view::RenderLayers}};
 
-use crate::{markers::{IconCreatorEntityParentMarker, IconCreatorRootMarker, IconCreatorSceneRootMarker, InIconCreatorSceneMarker}, state::IconCreatorState};
+use crate::{markers::{IconCreatorCameraMarker, IconCreatorEntityParentMarker, IconCreatorRootMarker, IconCreatorSceneRootMarker, InIconCreatorSceneMarker}, state::IconCreatorState};
 
 pub fn setup_icon_creation_scenes(
     mut commands: Commands,
@@ -46,6 +46,7 @@ pub fn setup_icon_creation_scenes(
                     transform: Transform::from_xyz(0.0, 0.0, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
                     ..Default::default()
                 },
+                IconCreatorCameraMarker,
                 RenderLayers::layer(icon_creator_state.render_layer),
                 Name::new("Scene camera"),
                 ))
