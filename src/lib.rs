@@ -5,6 +5,7 @@ mod state;
 mod utils;
 mod set_image_on_load;
 mod register_types;
+mod hash_to_uuid_ext;
 
 pub mod image_ext;
 pub mod plugin;
