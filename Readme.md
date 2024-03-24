@@ -46,6 +46,7 @@ Thanks for using!
 This was extracted from my in development game: ## Operation Deep Freeze
 
 [Subreddit](https://www.reddit.com/r/operationdeepfreeze/)
+
 [Youtube channel](https://www.youtube.com/channel/UCaqu5sampSjdA8_mB55UiXQ)
 
 If you have any inquiries: <me@franklinblanco.dev>
