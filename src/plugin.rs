@@ -1,6 +1,6 @@
-use bevy::{app::{Plugin, Startup}, math::Vec3};
+use bevy::{app::{Plugin, Startup, Update}, math::Vec3};
 
-use crate::{setup::setup_icon_creation_scenes, state::IconCreatorState};
+use crate::{created_icons::CreatedIcons, register_types::RegisterTypesPlugin, setup::setup_icon_creation_scenes, state::IconCreatorState, update::{update_give_work_to_scenes, update_icon_creator_scenes, update_replace_images_on_ui_images, update_set_render_layers_recursively}};
 
 const DEFAULT_SCENES_AMOUNT: u8 = 1;
 const DEFAULT_WORLD_POSITION_FOR_ROOT: Vec3 = Vec3 { x: 0.0, y: -300.0, z: 0.0 };
@@ -29,9 +29,17 @@ pub struct IconCreatorPlugin {
 
 impl Plugin for IconCreatorPlugin {
     fn build(&self, app: &mut bevy::prelude::App) {
+        app.add_plugins(RegisterTypesPlugin);
         app.insert_resource(IconCreatorState::new(self.scenes, self.world_pos, self.render_layer, self.light_intensity));
+        app.insert_resource(CreatedIcons::default());
 
         app.add_systems(Startup, setup_icon_creation_scenes);
+        app.add_systems(Update, (
+            update_set_render_layers_recursively,
+            update_give_work_to_scenes,
+            update_icon_creator_scenes,
+            update_replace_images_on_ui_images,
+        ));
     }
 }
 

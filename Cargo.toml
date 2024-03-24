@@ -11,3 +11,4 @@ readme = "README.md"
 
 [dependencies]
 bevy = { version = "0.13.1" }
+bevy_editor_pls = "0.8"

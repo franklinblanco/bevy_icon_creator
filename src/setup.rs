@@ -17,9 +17,9 @@ pub fn setup_icon_creation_scenes(
         // Scene Root
         let scene_root_entity = commands
         .spawn((
-            IconCreatorSceneRootMarker,
+            IconCreatorSceneRootMarker(0),
             InIconCreatorSceneMarker(scene_id),
-            TransformBundle::default(),
+            TransformBundle::from_transform(Transform::from_translation(Vec3::X * 5.0 * scene_id as f32)),
             VisibilityBundle::default(),
             RenderLayers::layer(icon_creator_state.render_layer),
             Name::new(format!("Scene Root with id: {scene_id}")),
